@@ -18,5 +18,4 @@ class Review(models.Model):
     created_at  = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        app_label     = 'handler'
         unique_together = ('booking_id', 'reviewer_id', 'target_type')

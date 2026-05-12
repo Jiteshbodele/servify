@@ -8,8 +8,7 @@ class ServiceCategory(models.Model):
     icon_url   = models.URLField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        app_label = 'handler'
+   
 
     def __str__(self): return self.name
 
@@ -24,7 +23,5 @@ class Service(models.Model):
     is_active   = models.BooleanField(default=True)
     created_at  = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        app_label = 'handler'
 
     def __str__(self): return self.name

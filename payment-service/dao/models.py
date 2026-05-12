@@ -25,5 +25,4 @@ class Transaction(models.Model):
     failure_reason   = models.TextField(blank=True)
     created_at       = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        app_label = 'handler'
+    

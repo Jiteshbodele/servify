@@ -21,5 +21,4 @@ class Notification(models.Model):
     sent_at    = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        app_label = 'handler'
+   

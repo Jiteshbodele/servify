@@ -7,8 +7,7 @@ class ChatRoom(models.Model):
     booking_id = models.UUIDField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        app_label = 'handler'
+   
 
 
 class Message(models.Model):
@@ -21,5 +20,4 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        app_label = 'handler'
         ordering  = ['created_at']

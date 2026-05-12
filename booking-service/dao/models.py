@@ -12,7 +12,6 @@ class ProviderService(models.Model):
     created_at       = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        app_label = 'handler'
         unique_together = ('provider_user_id', 'service_id')
 
 
@@ -28,7 +27,6 @@ class Availability(models.Model):
     is_recurring     = models.BooleanField(default=True)
 
     class Meta:
-        app_label = 'handler'
         unique_together = ('provider_service', 'day_of_week', 'slot_start')
 
 
@@ -52,5 +50,4 @@ class Booking(models.Model):
     created_at       = models.DateTimeField(auto_now_add=True)
     updated_at       = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        app_label = 'handler'
+    
