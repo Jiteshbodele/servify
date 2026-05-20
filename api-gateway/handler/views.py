@@ -228,3 +228,29 @@ class GatewayHealthHandler(APIView):
     permission_classes = [permissions.AllowAny]
     def get(self, request):
         return Response({'service': 'api-gateway', 'status': 'ok'})
+
+
+# ── Calls ─────────────────────────────────────────────────────
+
+class InitiateCallGatewayHandler(APIView):
+    permission_classes = [permissions.AllowAny]
+    def post(self, request):
+        return proxy(request, settings.CALLING_SERVICE_URL, '/api/calls/')
+
+
+class CallCallbackGatewayHandler(APIView):
+    permission_classes = [permissions.AllowAny]
+    def post(self, request):
+        return proxy(request, settings.CALLING_SERVICE_URL, '/api/calls/callback/')
+
+
+class MyCallsGatewayHandler(APIView):
+    permission_classes = [permissions.AllowAny]
+    def get(self, request):
+        return proxy(request, settings.CALLING_SERVICE_URL, '/api/calls/mine/')
+
+
+class BookingCallsGatewayHandler(APIView):
+    permission_classes = [permissions.AllowAny]
+    def get(self, request):
+        return proxy(request, settings.CALLING_SERVICE_URL, '/api/calls/')

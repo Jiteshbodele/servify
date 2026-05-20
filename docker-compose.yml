@@ -63,15 +63,16 @@ services:
       interval: 5s
       retries: 5
 
-  postgres-chat:
+  postgres-calling:
     image: postgres:15
-    environment: { POSTGRES_DB: chat_db, POSTGRES_USER: postgres, POSTGRES_PASSWORD: postgres }
-    ports: ["5439:5432"]
-    volumes: [pgdata-chat:/var/lib/postgresql/data]
+    environment: { POSTGRES_DB: calling_db, POSTGRES_USER: postgres, POSTGRES_PASSWORD: postgres }
+    ports: ["5440:5432"]
+    volumes: [pgdata-calling:/var/lib/postgresql/data]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
-      retries: 5
+      timeout: 5s
+      retries: 10
 
   # ── Infra ──────────────────────────────────────────────────
   redis:
@@ -189,18 +190,16 @@ services:
     env_file: ./search-service/.env
     command: gunicorn config.wsgi:application --bind 0.0.0.0:8007 --workers 2 --reload
 
-  chat-service:
-    build: ./chat-service
+  calling-service:
+    build: ./calling-service
     ports: ["8008:8008"]
     depends_on:
-      postgres-chat:
+      postgres-calling:
         condition: service_healthy
-      redis:
-        condition: service_started
-    env_file: ./chat-service/.env
+    env_file: ./calling-service/.env
     command: >
       sh -c "python manage.py migrate --noinput &&
-             daphne -b 0.0.0.0 -p 8008 config.asgi:application"
+             gunicorn config.wsgi:application --bind 0.0.0.0:8008 --workers 2 --reload"
 
   api-gateway:
     build: ./api-gateway
@@ -213,7 +212,7 @@ services:
       - notification-service
       - review-service
       - search-service
-      - chat-service
+      - calling-service
     env_file: ./api-gateway/.env
     command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2 --reload
 
@@ -247,5 +246,5 @@ volumes:
   pgdata-payment:
   pgdata-notification:
   pgdata-review:
-  pgdata-chat:
+  pgdata-calling:
   esdata:

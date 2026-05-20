@@ -9,6 +9,6 @@ urlpatterns = [
     path('api/notifications/', include('handler.notification_urls')),
     path('api/reviews/',       include('handler.review_urls')),
     path('api/search/',        include('handler.search_urls')),
-    path('api/chat/',          include('handler.chat_urls')),
+    path('api/calls/',         include('handler.call_urls')),
     path('health/',            include('handler.health_urls')),
 ]

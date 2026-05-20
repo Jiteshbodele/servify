@@ -65,7 +65,8 @@ PAYMENT_SERVICE_URL      = _env('PAYMENT_SERVICE_URL',      default='http://paym
 NOTIFICATION_SERVICE_URL = _env('NOTIFICATION_SERVICE_URL', default='http://notification-service:8005')
 REVIEW_SERVICE_URL       = _env('REVIEW_SERVICE_URL',       default='http://review-service:8006')
 SEARCH_SERVICE_URL       = _env('SEARCH_SERVICE_URL',       default='http://search-service:8007')
-CHAT_SERVICE_URL         = _env('CHAT_SERVICE_URL',         default='http://chat-service:8008')
+CALLING_SERVICE_URL      = _env('CALLING_SERVICE_URL',      default='http://calling-service:8008')
+
 
 REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': [
