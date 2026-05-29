@@ -4,6 +4,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from dao.user_dao import UserDAO
 from dao.kafka_dao import publish
 
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
+
 
 class AuthService:
 
@@ -54,6 +57,24 @@ class AuthService:
             raise ValidationError({'old_password': 'Old password is incorrect.'})
         user.set_password(new_password)
         user.save(update_fields=['password'])
+
+
+    @staticmethod
+    def logout(refresh_token):
+        try:
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return {
+                "success": True,
+                "message": "Successfully logged out."
+            }
+
+        except TokenError:
+            return {
+                "success": False,
+                "message": "Invalid or already blacklisted token."
+            }
 
 
 def _fmt_user(user) -> dict:

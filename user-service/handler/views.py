@@ -8,7 +8,7 @@ from service.user_service import UserService
 from utils.permissions import IsInternalRequest
 from handler.serializers import (
     RegisterSerializer, LoginSerializer, RefreshSerializer,
-    ChangePasswordSerializer, UpdateNameSerializer, AddressSerializer,
+    ChangePasswordSerializer, UpdateNameSerializer, AddressSerializer,LogoutSerializer
 )
 
 
@@ -104,3 +104,35 @@ class HealthHandler(APIView):
     permission_classes = [permissions.AllowAny]
     def get(self, request):
         return Response({'service': 'user-service', 'status': 'ok'})
+
+
+
+class LogoutHandler(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        serializer = LogoutSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(
+                {
+                    "success": False,
+                    "errors": serializer.errors
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        response = AuthService.logout(
+            serializer.validated_data["refresh"]
+        )
+
+        if not response["success"]:
+            return Response(
+                response,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        return Response(
+            response,
+            status=status.HTTP_200_OK
+        )

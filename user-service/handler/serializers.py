@@ -32,6 +32,11 @@ class UpdateNameSerializer(serializers.Serializer):
     name = serializers.CharField(min_length=2, max_length=255)
 
 
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField(required=True)
+
+
 class AddressSerializer(serializers.Serializer):
     label      = serializers.CharField(max_length=50)
     street     = serializers.CharField(max_length=255)

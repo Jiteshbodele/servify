@@ -29,8 +29,14 @@ class AuthRefreshHandler(APIView):
 class AuthLogoutHandler(APIView):
     permission_classes = [permissions.AllowAny]
     def post(self, request):
-        return proxy(request, settings.USER_SERVICE_URL, '/api/auth/change-password/')
+        return proxy(request, settings.USER_SERVICE_URL, '/api/auth/logout/')
 
+
+class ChangePasswordHandler(APIView):
+    permission_classes = [permissions.AllowAny]
+    def post(self, request):
+        return proxy(request, settings.USER_SERVICE_URL, '/api/auth/change-password/')
+    
 
 # ── Users ─────────────────────────────────────────────────────
 
@@ -40,12 +46,6 @@ class MeHandler(APIView):
         return proxy(request, settings.USER_SERVICE_URL, '/api/users/me/')
     def patch(self, request):
         return proxy(request, settings.USER_SERVICE_URL, '/api/users/me/')
-
-
-class ChangePasswordHandler(APIView):
-    permission_classes = [permissions.AllowAny]
-    def post(self, request):
-        return proxy(request, settings.USER_SERVICE_URL, '/api/auth/change-password/')
 
 
 class ApproveProviderHandler(APIView):
