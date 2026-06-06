@@ -40,9 +40,16 @@ class AuthService:
             raise PermissionDenied('Account is deactivated.')
 
         refresh = RefreshToken.for_user(user)
+        refresh['role']  = user.role
+        refresh['email'] = user.email
+        refresh['name']  = user.name
+
         return {
             'user':   _fmt_user(user),
-            'tokens': {'access': str(refresh.access_token), 'refresh': str(refresh)},
+            'tokens': {
+                'access':  str(refresh.access_token),
+                'refresh': str(refresh),
+            },
         }
 
     @staticmethod

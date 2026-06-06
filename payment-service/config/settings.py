@@ -114,3 +114,4 @@ LOGGING = {
         },
     },
 }
+MOCK_PAYMENT = env.bool('MOCK_PAYMENT', default=True)
