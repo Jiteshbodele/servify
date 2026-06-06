@@ -54,6 +54,8 @@ class BookingCallListHandler(APIView):
         if not booking_id:
             return Response({'booking_id': 'Required.'}, status=400)
         return Response(CallService.list_for_booking(booking_id))
+    
+
 
 
 class MyCallsHandler(APIView):

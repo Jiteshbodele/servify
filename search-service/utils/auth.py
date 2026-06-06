@@ -8,6 +8,11 @@ def decode_token(request) -> dict:
         raise AuthenticationFailed('Authentication required.')
     try:
         payload = jwt.decode(token, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM])
-        return {'user_id': payload['sub'], 'role': payload['role']}
+        return {
+            'user_id': payload['user_id'],   # SimpleJWT uses 'user_id' not 'sub'
+            'role':    payload.get('role', ''),
+            'email':   payload.get('email', ''),
+            'name':    payload.get('name', ''),
+        }
     except JWTError:
         raise AuthenticationFailed('Invalid or expired token.')

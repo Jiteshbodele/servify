@@ -210,16 +210,16 @@ class SearchHandler(APIView):
 
 # ── Chat ──────────────────────────────────────────────────────
 
-class ChatRoomHandler(APIView):
-    permission_classes = [permissions.AllowAny]
-    def get(self, request, booking_id):
-        return proxy(request, settings.CHAT_SERVICE_URL, f'/api/chat/{booking_id}/')
+# class ChatRoomHandler(APIView):
+#     permission_classes = [permissions.AllowAny]
+#     def get(self, request, booking_id):
+#         return proxy(request, settings.CHAT_SERVICE_URL, f'/api/chat/{booking_id}/')
 
 
-class MarkReadHandler(APIView):
-    permission_classes = [permissions.AllowAny]
-    def post(self, request, booking_id):
-        return proxy(request, settings.CHAT_SERVICE_URL, f'/api/chat/{booking_id}/mark-read/')
+# class MarkReadHandler(APIView):
+#     permission_classes = [permissions.AllowAny]
+#     def post(self, request, booking_id):
+#         return proxy(request, settings.CHAT_SERVICE_URL, f'/api/chat/{booking_id}/mark-read/')
 
 
 # ── Health ────────────────────────────────────────────────────
@@ -253,4 +253,4 @@ class MyCallsGatewayHandler(APIView):
 class BookingCallsGatewayHandler(APIView):
     permission_classes = [permissions.AllowAny]
     def get(self, request):
-        return proxy(request, settings.CALLING_SERVICE_URL, '/api/calls/')
+        return proxy(request, settings.CALLING_SERVICE_URL, '/api/calls/list/')

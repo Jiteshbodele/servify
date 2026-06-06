@@ -5,4 +5,5 @@ urlpatterns = [
     path('',          InitiateCallHandler.as_view()),
     path('callback/', CallCallbackHandler.as_view()),
     path('mine/',     MyCallsHandler.as_view()),
+    path('list/',     BookingCallListHandler.as_view()),
 ]

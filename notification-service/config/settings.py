@@ -63,7 +63,7 @@ REST_FRAMEWORK = {
 }
 
 INTERNAL_SECRET = env('INTERNAL_SECRET', default='internal-secret')
-JWT_SECRET = env('JWT_SECRET', default='jwt-secret')
+JWT_SECRET = env('JWT_SECRET', default='your-super-secret-jwt-key-change-in-production')
 JWT_ALGORITHM = 'HS256'
 KAFKA_BOOTSTRAP_SERVERS = env('KAFKA_BOOTSTRAP_SERVERS', default='kafka:9092')
 

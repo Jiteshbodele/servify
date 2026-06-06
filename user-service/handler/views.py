@@ -130,7 +130,7 @@ class HealthHandler(APIView):
 
 
 class LogoutHandler(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def post(self, request):
         serializer = LogoutSerializer(data=request.data)
@@ -158,3 +158,18 @@ class LogoutHandler(APIView):
             response,
             status=status.HTTP_200_OK
         )
+
+# class LogoutHandler(APIView):
+#     permission_classes = [permissions.AllowAny]  # ← was IsAuthenticated
+
+#     def post(self, request):
+#         serializer = LogoutSerializer(data=request.data)
+#         if not serializer.is_valid():
+#             return Response(
+#                 {'success': False, 'errors': serializer.errors},
+#                 status=status.HTTP_400_BAD_REQUEST
+#             )
+#         response = AuthService.logout(serializer.validated_data['refresh'])
+#         if not response['success']:
+#             return Response(response, status=status.HTTP_400_BAD_REQUEST)
+#         return Response(response, status=status.HTTP_200_OK)
