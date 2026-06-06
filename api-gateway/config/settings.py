@@ -24,6 +24,22 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
 ROOT_URLCONF = 'config.urls'
 WSGI_APPLICATION = 'config.wsgi.application'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -39,11 +55,11 @@ DATABASES = {
     }
 }
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [],
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
-    'EXCEPTION_HANDLER': 'utils.exceptions.custom_exception_handler',
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [],
+#     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
+#     'EXCEPTION_HANDLER': 'utils.exceptions.custom_exception_handler',
+# }
 
 INTERNAL_SECRET = env('INTERNAL_SECRET', default='internal-secret')
 JWT_SECRET = env('JWT_SECRET', default='jwt-secret')
@@ -54,7 +70,6 @@ USE_TZ = True
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
 
-import environ
 from pathlib import Path
 _env = environ.Env()
 _env.read_env(Path(__file__).resolve().parent.parent / '.env')
@@ -68,15 +83,23 @@ SEARCH_SERVICE_URL       = _env('SEARCH_SERVICE_URL',       default='http://sear
 CALLING_SERVICE_URL      = _env('CALLING_SERVICE_URL',      default='http://calling-service:8008')
 
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ),
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'EXCEPTION_HANDLER': 'utils.exceptions.custom_exception_handler',
+# }
 REST_FRAMEWORK = {
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle',
+    'DEFAULT_AUTHENTICATION_CLASSES': [],   # gateway does no auth itself
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
     ],
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/hour',
-        'user': '1000/hour',
-    },
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
     'EXCEPTION_HANDLER': 'utils.exceptions.custom_exception_handler',
 }
 

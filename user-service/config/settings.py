@@ -76,18 +76,22 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'utils.exceptions.custom_exception_handler',
 }
 
+
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME':  timedelta(minutes=env.int('JWT_ACCESS_LIFETIME_MINUTES', default=1440)),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=env.int('JWT_REFRESH_LIFETIME_DAYS', default=7)),
-    'ROTATE_REFRESH_TOKENS':   True,
+    'ACCESS_TOKEN_LIFETIME':  timedelta(minutes=1440),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS':  False,
     'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
     'AUTH_HEADER_TYPES': ('Bearer',),
+    'SIGNING_KEY': env('JWT_SECRET', default='your-super-secret-jwt-key-change-in-production'),  # ← add this
 }
 
 AUTH_USER_MODEL = 'dao.User'
-
+JWT_SECRET = env('JWT_SECRET', default='your-super-secret-jwt-key-change-in-production')
+JWT_ALGORITHM = 'HS256'
 KAFKA_BOOTSTRAP_SERVERS = env('KAFKA_BOOTSTRAP_SERVERS', default='kafka:9092')
-INTERNAL_SECRET = env('INTERNAL_SECRET')
+INTERNAL_SECRET = env('INTERNAL_SECRET', default='internal-secret')
 
 USE_TZ = True
 TIME_ZONE = 'UTC'

@@ -5,12 +5,13 @@ from rest_framework.exceptions import PermissionDenied
 
 from service.auth_service import AuthService
 from service.user_service import UserService
-from utils.permissions import IsInternalRequest
 from handler.serializers import (
     RegisterSerializer, LoginSerializer, RefreshSerializer,
     ChangePasswordSerializer, UpdateNameSerializer, AddressSerializer,LogoutSerializer
 )
 
+from utils.permissions import IsInternalRequest
+from utils.auth import decode_token
 
 class RegisterHandler(APIView):
     permission_classes = [permissions.AllowAny]
@@ -36,13 +37,34 @@ class RefreshHandler(APIView):
         return Response(AuthService.refresh(s.validated_data['refresh']))
 
 
+
+    
+# class ChangePasswordHandler(APIView):
+#     permission_classes = [permissions.AllowAny]
+
+#     def post(self, request):
+#         # user = decode_token(request)   # ← this needs JWT_SECRET to be set
+#         s = ChangePasswordSerializer(data=request.data)
+#         s.is_valid(raise_exception=True)
+#         return Response(AuthService.change_password(
+#             user_id=user['user_id'],
+#             old_password=s.validated_data['old_password'],
+#             new_password=s.validated_data['new_password'],
+#         ))
+
 class ChangePasswordHandler(APIView):
+    # No overrides — uses default IsAuthenticated + JWTAuthentication from settings
+    # DRF validates the token and populates request.user automatically
+
     def post(self, request):
         s = ChangePasswordSerializer(data=request.data)
         s.is_valid(raise_exception=True)
-        AuthService.change_password(user_id=str(request.user.id), **s.validated_data)
+        AuthService.change_password(
+            user_id=str(request.user.id),
+            old_password=s.validated_data['old_password'],
+            new_password=s.validated_data['new_password'],
+        )
         return Response({'detail': 'Password updated.'})
-
 
 class MeHandler(APIView):
     def get(self, request):

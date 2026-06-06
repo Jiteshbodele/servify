@@ -1,11 +1,10 @@
 from rest_framework.exceptions import ValidationError, AuthenticationFailed, PermissionDenied
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
 
 from dao.user_dao import UserDAO
 from dao.kafka_dao import publish
 
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.exceptions import TokenError
 
 
 class AuthService:
@@ -28,10 +27,8 @@ class AuthService:
             'role':    user.role,
         })
 
-        refresh = RefreshToken.for_user(user)
         return {
             'user':   _fmt_user(user),
-            'tokens': {'access': str(refresh.access_token), 'refresh': str(refresh)},
         }
 
     @staticmethod
@@ -75,6 +72,18 @@ class AuthService:
                 "success": False,
                 "message": "Invalid or already blacklisted token."
             }
+    
+
+    @staticmethod
+    def refresh(refresh_token: str) -> dict:
+        try:
+            token = RefreshToken(refresh_token)
+            return {
+                'access': str(token.access_token),
+            }
+        except TokenError as e:
+            from rest_framework.exceptions import AuthenticationFailed
+            raise AuthenticationFailed(f'Invalid or expired refresh token: {e}')
 
 
 def _fmt_user(user) -> dict:
