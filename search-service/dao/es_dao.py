@@ -57,7 +57,7 @@ def search(query: str = None, category: str = None, city: str = None,
         must.append({
             'multi_match': {
                 'query':     query,
-                'fields':    ['service_name^3', 'description', 'provider_name'],
+                'fields':    ['service_name^3', 'description', 'provider_name', 'category_name^2'],
                 'fuzziness': 'AUTO',
             }
         })

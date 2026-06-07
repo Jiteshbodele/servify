@@ -173,3 +173,9 @@ class LogoutHandler(APIView):
 #         if not response['success']:
 #             return Response(response, status=status.HTTP_400_BAD_REQUEST)
 #         return Response(response, status=status.HTTP_200_OK)
+
+class InternalGetUserAddressesHandler(APIView):
+    permission_classes = [IsInternalRequest]
+
+    def get(self, request, user_id):
+        return Response(UserService.get_addresses(user_id))

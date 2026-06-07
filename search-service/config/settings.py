@@ -61,7 +61,6 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'utils.exceptions.custom_exception_handler',
 }
 
-INTERNAL_SECRET = env('INTERNAL_SECRET', default='internal-secret')
 JWT_SECRET = env('JWT_SECRET', default='jwt-secret')
 JWT_ALGORITHM = 'HS256'
 KAFKA_BOOTSTRAP_SERVERS = env('KAFKA_BOOTSTRAP_SERVERS', default='kafka:9092')
@@ -105,3 +104,6 @@ LOGGING = {
         },
     },
 }
+CATALOG_SERVICE_URL = env('CATALOG_SERVICE_URL', default='http://catalog-service:8002')
+USER_SERVICE_URL    = env('USER_SERVICE_URL',    default='http://user-service:8001')
+INTERNAL_SECRET     = env('INTERNAL_SECRET',     default='internal-service-secret-key')
