@@ -75,7 +75,7 @@ EXOTEL_API_TOKEN      = env('EXOTEL_API_TOKEN',      default='')
 EXOTEL_VIRTUAL_NUMBER = env('EXOTEL_VIRTUAL_NUMBER', default='')
 EXOTEL_CALLBACK_URL   = env('EXOTEL_CALLBACK_URL',   default='')
 
-JWT_SECRET    = env('JWT_SECRET',    default='your-super-secret-jwt-key')
+JWT_SECRET    = env('JWT_SECRET',    default='your-super-secret-jwt-key-change-in-production')
 JWT_ALGORITHM = 'HS256'
 INTERNAL_SECRET    = env('INTERNAL_SECRET')
 USER_SERVICE_URL   = env('USER_SERVICE_URL',   default='http://user-service:8001')

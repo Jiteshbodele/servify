@@ -1,4 +1,4 @@
-from datetime import date, time
+from datetime import date, time, datetime, timedelta
 from django.db import transaction
 from rest_framework.exceptions import ValidationError, NotFound, PermissionDenied
 
@@ -58,14 +58,23 @@ class AvailabilityManager:
         day    = for_date.weekday()
         slots  = AvailabilityDAO.get_slots(provider_service_id, day)
         booked = BookingDAO.get_booked_times(provider_service_id, for_date)
-        return [
-            {
-                'slot_start': str(s.slot_start),
-                'slot_end':   str(s.slot_end),
-                'available':  s.slot_start not in booked,
-            }
-            for s in slots
-        ]
+        result = []
+        for s in slots:
+            current = datetime.combine(for_date, s.slot_start)
+            end = datetime.combine(for_date, s.slot_end)
+            while current < end:
+                t = current.time()
+                slot_end = min(
+                    (current + timedelta(hours=1)).time(),
+                    s.slot_end,
+                )
+                result.append({
+                    'slot_start': str(t),
+                    'slot_end':   str(slot_end),
+                    'available':  t not in booked,
+                })
+                current += timedelta(hours=1)
+        return result
 
     @staticmethod
     def add_slot(provider_service_id, provider_user_id,
