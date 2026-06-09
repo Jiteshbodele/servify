@@ -50,3 +50,29 @@ export function providerServiceLabel(catalog, providerService) {
   if (name) return `${name} (${idShort}…)`;
   return `Service ${idShort}…`;
 }
+
+/** Average rating from GET /api/users/me/ response. */
+export function getProfileRating(profile) {
+  if (!profile) return null;
+  if (profile.role === 'provider' && profile.provider_profile) {
+    return profile.provider_profile.avg_rating;
+  }
+  if (profile.role === 'seeker' && profile.seeker_profile) {
+    return profile.seeker_profile.avg_rating;
+  }
+  return null;
+}
+
+/** Display rating for profiles and search cards. */
+export function formatRating(rating) {
+  if (rating == null || rating === '') return 'No ratings yet';
+  const n = Number(rating);
+  if (Number.isNaN(n)) return 'No ratings yet';
+  return `★ ${n.toFixed(1)}`;
+}
+
+/** Rating from a search result object (handles alternate field names). */
+export function getSearchResultRating(item) {
+  const r = item?.avg_rating ?? item?.rating ?? item?.provider_rating;
+  return r != null && r !== '' ? Number(r) : null;
+}

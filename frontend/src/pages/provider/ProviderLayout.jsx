@@ -5,6 +5,7 @@ const links = [
   { to: '/provider/services', label: 'My Services' },
   { to: '/provider/availability', label: 'Availability' },
   { to: '/provider/bookings', label: 'Bookings' },
+  { to: '/provider/profile', label: 'Profile' },
   { to: '/provider/search', label: 'Search' },
   { to: '/provider/calls', label: 'Call History' },
 ];

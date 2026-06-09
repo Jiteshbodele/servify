@@ -20,7 +20,7 @@ export default function Home() {
             </Link>
           ) : (
             <>
-              <Link to="/register" className="btn btn-primary btn-lg">
+              <Link to="/register" className="btn btn-lg" style={{ background: '#ffffff', color: '#4338ca', fontWeight: 800, boxShadow: '0 4px 20px rgba(0,0,0,0.25)', border: '2px solid transparent', textDecoration: 'none' }}>
                 Get Started
               </Link>
               <Link to="/login" className="btn btn-outline btn-lg">

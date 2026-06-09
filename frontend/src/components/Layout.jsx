@@ -10,7 +10,7 @@ export default function Layout() {
       </main>
       <footer className="footer">
         <div className="container">
-          <p>Service Booking Platform — Microservices Demo</p>
+          <p>© {new Date().getFullYear()} ServiceHub — Microservices Platform</p>
         </div>
       </footer>
     </div>

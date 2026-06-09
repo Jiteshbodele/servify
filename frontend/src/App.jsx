@@ -27,6 +27,8 @@ import ProviderAvailability from './pages/provider/Availability';
 import ProviderBookings from './pages/provider/Bookings';
 import ProviderSearch from './pages/provider/Search';
 import ProviderCallHistory from './pages/provider/CallHistory';
+import ProviderNotifications from './pages/provider/Notifications';
+import ProviderProfile from './pages/provider/Profile';
 
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/Dashboard';
@@ -66,8 +68,10 @@ export default function App() {
                   <Route path="services" element={<ProviderServices />} />
                   <Route path="availability" element={<ProviderAvailability />} />
                   <Route path="bookings" element={<ProviderBookings />} />
+                  <Route path="profile" element={<ProviderProfile />} />
                   <Route path="search" element={<ProviderSearch />} />
                   <Route path="calls" element={<ProviderCallHistory />} />
+                  <Route path="notifications" element={<ProviderNotifications />} />
                 </Route>
               </Route>
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getMe, updateMe, listAddresses, createAddress, deleteAddress } from '../../api/users';
 import { changePassword } from '../../api/auth';
 import { getErrorMessage } from '../../api/client';
+import { formatRating, getProfileRating } from '../../utils/helpers';
 import Alert from '../../components/Alert';
 import Loading from '../../components/Loading';
 
@@ -94,6 +95,8 @@ export default function SeekerProfile() {
 
   if (loading) return <Loading />;
 
+  const rating = getProfileRating(profile);
+
   return (
     <div className="stack">
       <Alert message={error} onClose={() => setError('')} />
@@ -102,6 +105,10 @@ export default function SeekerProfile() {
       <div className="card">
         <h2>Profile</h2>
         <p className="text-muted">{profile?.email} · {profile?.phone}</p>
+        <p>
+          <strong>Rating:</strong>{' '}
+          <span className="badge">{formatRating(rating)}</span>
+        </p>
         <form onSubmit={saveName} className="form inline-form">
           <label>
             Display name
