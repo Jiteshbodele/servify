@@ -34,6 +34,7 @@ import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/Dashboard';
 import AdminCategories from './pages/admin/Categories';
 import AdminServices from './pages/admin/Services';
+import AdminProfile from './pages/admin/Profile';
 
 export default function App() {
   return (
@@ -80,6 +81,7 @@ export default function App() {
                   <Route index element={<AdminDashboard />} />
                   <Route path="categories" element={<AdminCategories />} />
                   <Route path="services" element={<AdminServices />} />
+                  <Route path="profile" element={<AdminProfile />} />
                 </Route>
               </Route>
             </Route>

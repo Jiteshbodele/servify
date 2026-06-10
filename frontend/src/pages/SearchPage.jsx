@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { searchProviders } from '../api/search';
 import { getErrorMessage } from '../api/client';
 import { formatCurrency } from '../utils/helpers';
+import { useAuth } from '../context/AuthContext';
 import Loading from '../components/Loading';
 import Alert from '../components/Alert';
 
@@ -34,6 +35,8 @@ const FIELD_PLACEHOLDERS = {
 };
 
 export default function SearchPage() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [params] = useSearchParams();
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -238,7 +241,7 @@ export default function SearchPage() {
               {(r.provider_name || r.experience) && (
                 <p className="text-muted text-sm">{r.provider_name || r.experience}</p>
               )}
-              <div className="card-meta" style={{ marginTop: 'auto' }}>
+              <div className="card-meta">
                 {r.effective_price != null && (
                   <span className="price">{formatCurrency(r.effective_price)}</span>
                 )}
@@ -246,6 +249,23 @@ export default function SearchPage() {
                   <span className="badge badge-warn">★ {r.avg_rating}</span>
                 )}
                 {r.city && <span className="badge badge-info">📍 {r.city}</span>}
+              </div>
+              <div style={{ marginTop: 'auto', paddingTop: '0.5rem' }}>
+                {user?.role === 'seeker' ? (
+                  <button
+                    className="btn btn-primary btn-sm"
+                    onClick={() => navigate(`/seeker/book?provider_service_id=${r.id || r.provider_service_id}`)}
+                  >
+                    Book this Service
+                  </button>
+                ) : !user ? (
+                  <button
+                    className="btn btn-outline btn-sm"
+                    onClick={() => navigate('/login')}
+                  >
+                    Login to Book
+                  </button>
+                ) : null}
               </div>
             </div>
           ))}
